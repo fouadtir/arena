@@ -1,0 +1,104 @@
+<?php
+
+namespace Arena\Creature;
+
+use Arena\Attack\Struggle;
+
+abstract class BaseCreature
+{
+    /**
+     * Vie de la créature
+     */
+    private $life = 100;
+    private $PP = 100;
+
+    /**
+     * Attaques
+     */
+    protected $attacks = [];
+
+    /**
+     * Surnom de la créature
+     */
+    protected $nickname;
+
+    public function __construct($nickname)
+    {
+        $this->nickname = $nickname;
+        $this->attacks = [new Struggle];
+    }
+
+    /**
+     * Frappe la créature
+     */
+    public function hit($strength)
+    {
+      if($this->PP>0)
+      {
+        $this->life = (int)max(0, $this->life - $strength);
+      }else {
+        $this->life;
+      }
+    }
+    public function hitPP($strength)
+    {
+      if($this->PP>0)
+      {
+      $this->PP = (int)max(0, $this->PP - $strength*1.5);
+      }
+    }
+
+    /**
+     * Soigne la créature
+     */
+    public function heal($strength)
+    {
+        $this->life = (int)min(100, $this->life + $strength);
+        $this->PP =(int)max(0 , $this->PP - $strenght);
+    }
+
+    /**
+     * Est-ce que la créature est morte ?
+     */
+    public function isDead()
+    {
+        return $this->life <= 0;
+    }
+
+    /**
+     * Obtient la vie courante
+     */
+    public function getLife()
+    {
+        return $this->life;
+    }
+    public function getPP()
+    {
+      return $this->PP;
+    }
+
+    /**
+     * Nom de la créature
+     */
+    public abstract function getName();
+
+    /**
+     * Attaques réalisables
+     */
+    public function getAttacks()
+    {
+        return $this->attacks;
+    }
+    public function getDescription(){
+      return $this->getDescription;
+    }
+
+
+    /**
+     * Surnom de la créature
+     */
+    public function __toString()
+    {
+        return $this->nickname;
+    }
+}
